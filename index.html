@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VÆLINE</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="#home">Domov</a>
+      <a href="#products">Produkty</a>
+      <a href="#about">O nás</a>
+      <a href="#contact">Kontakt</a>
+    </nav>
+  </header>
+
+  <section class="section" id="home" style="padding-top:140px;">
+    <h1>VÆLINE</h1>
+    <p>Luxus. Minimalizmus. Identita.</p>
+  </section>
+
+  <section class="section" id="products">
+    <h2>Produkty</h2>
+    <p>Testovací produkt: 20 €</p>
+    <button id="checkout-button">Kúpiť</button>
+  </section>
+
+  <section class="section" id="about">
+    <h2>O nás</h2>
+    <p>VÆLINE je značka spájajúca luxusný dizajn a moderný štýl pre výnimočných ľudí.</p>
+  </section>
+
+  <section class="section" id="contact">
+    <h2>Kontakt</h2>
+    <p>Napíš nám na <a href="mailto:info@vaeline.store" style="color:#ffcc00;">info@vaeline.store</a></p>
+  </section>
+
+  <footer>&copy; 2025 VÆLINE</footer>
+
+  <script>
+    const stripe = Stripe("pk_test_51RKzfX015lI67bHhI16V5thRZoLtepHziSs7gVc81qispdSWHM4Lz2zBhlXTVsLl5DhPu8AxjfBlqRS3fGg2khFW00dKjDdZB2");
+    const checkoutButton = document.getElementById("checkout-button");
+    checkoutButton.addEventListener("click", () => {
+      fetch("/create-checkout-session", { method: "POST" })
+        .then(res => res.json())
+        .then(session => stripe.redirectToCheckout({ sessionId: session.id }));
+    });
+  </script>
+</body>
+</html>

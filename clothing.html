@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>VÆLINE – Oblečenie</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+  <header>VÆLINE</header>
+  <nav><a href="index.html">Domov</a></nav>
+  <div class="section">
+    <h2>Oblečenie</h2>
+    <p>Ukážkový produkt z kategórie Oblečenie</p>
+    <button id="checkout-button" class="button">Kúpiť za 20€</button>
+  </div>
+  <footer>&copy; 2025 VÆLINE</footer>
+  <script>
+    const stripe = Stripe("pk_test_51RKzfX015lI67bHhI16V5thRZoLtepHziSs7gVc81qispdSWHM4Lz2zBhlXTVsLl5DhPu8AxjfBlqRS3fGg2khFW00dKjDdZB2");
+    document.getElementById("checkout-button").addEventListener("click", () => {
+      fetch("/create-checkout-session", {
+        method: "POST"
+      })
+      .then(res => res.json())
+      .then(session => stripe.redirectToCheckout({ sessionId: session.id }));
+    });
+  </script>
+</body>
+</html>
